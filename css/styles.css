@@ -46,20 +46,20 @@ button{font:inherit}
 /* Modals */
 .modal{border:0;border-radius:16px;padding:0;background:transparent;color:inherit}
 .modal::backdrop{background:rgba(0,0,0,.6)}
-.modal-card{min-width:min(94vw,450px);background:#ffffff;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;color:var(--text)}
+.modal-card{background:#ffffff;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;color:var(--text)}
 .modal-card .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
 .modal-card .modal-actions.two{justify-content:space-between}
 .modal-card .primary{background:var(--primary);border:0;color:#ffffff;padding:10px 14px;border-radius:10px;font-weight:700}
 .modal-card .secondary{background:#ffffff;border:1px solid var(--border);color:#0f172a;padding:10px 14px;border-radius:10px}
 .modal-card .danger{background:var(--danger);border:0;color:#fff;padding:10px 14px;border-radius:10px}
-.modal.wide .modal-card{min-width:min(96vw,450px)}
+.modal.wide .modal-card{width:300px}
 .small{color:var(--muted)}
 
 /* Dice 3D */
-.dice-hero .image{width:100%;height:135px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-size:cover;border-radius:12px}
+.dice-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-size:cover;border-radius:12px}
 .dice-roller{perspective:800px;display:grid;place-items:center;height:180px}
 .cube{width:96px;height:96px;position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.7,.3,1)}
-.face{position:absolute;width:100%;height:100%;background:#f8fafc;border:1px solid var(--border-strong);border-radius:8px;background-image:url('../assets/spritedice.png');background-size:cover}
+.face{position:absolute;width:100%;height:100%;background:#ffffff;border:1px solid #666666;border-radius:8px;background-image:url('../assets/spritedice.png');background-size:cover}
 .face.front{transform:translateZ(48px)}
 .face.back{transform:rotateY(180deg) translateZ(48px)}
 .face.right{transform:rotateY(90deg) translateZ(48px)}
@@ -75,9 +75,9 @@ button{font:inherit}
 .option.challenge{background:rgba(124,58,237,.08)}
 
 /* Bottom sheet */
-.sheet{position:fixed;left:0;right:0;bottom:0;transform:translateY(calc(100% - 28px));transition:transform .3s ease;z-index:30}
+.sheet{position:fixed;left:0;right:0;bottom:0;transform:translateY(calc(100% - 48px));transition:transform .3s ease;z-index:30}
 .sheet[aria-expanded="true"]{transform:translateY(0)}
-.handle{height:28px;background:linear-gradient(180deg,#ffffff,#f8fafc);border-top-left-radius:12px;border-top-right-radius:12px;display:grid;place-items:center;border-top:1px solid var(--border)}
+.handle{height:48px;background:linear-gradient(180deg,#ffffff,#f8fafc);border-top-left-radius:12px;border-top-right-radius:12px;display:grid;place-items:center;border-top:1px solid var(--border)}
 .handle::after{content:"";width:52px;height:6px;border-radius:999px;background:#cbd5e1}
 .sheet-content{background:var(--surface);border-top:1px solid var(--border);padding:12px 12px 16px 12px;box-shadow:0 -8px 24px rgba(16,24,40,.06)}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
@@ -97,11 +97,11 @@ button{font:inherit}
 }
 
 /* Fun background on game page */
-main.game{
+body{
   background-image:
-    radial-gradient(1000px 400px at -10% 0%, rgba(14,165,233,0.08), transparent 60%),
-    radial-gradient(800px 300px at 110% 20%, rgba(124,58,237,0.08), transparent 60%),
-    radial-gradient(600px 240px at 50% 120%, rgba(22,163,74,0.08), transparent 60%);
+    radial-gradient(1000px 400px at -10% 0%, rgba(14,165,233,0.08), transparent 90%),
+    radial-gradient(800px 300px at 110% 20%, rgba(124,58,237,0.08), transparent 90%),
+    radial-gradient(600px 240px at 50% 120%, rgba(22,163,74,0.08), transparent 90%);
 }
 
 

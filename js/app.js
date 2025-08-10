@@ -216,7 +216,7 @@
     const step = $('#dice-step');
     step.hidden = true;
     cta.textContent = t('dice.cta');
-    hero.style.backgroundPositionY = `-${1668}px`;
+    hero.style.backgroundPositionY = `-${1068}px`;
     setCubeFacesForDie(cube, die);
     dlg.showModal();
     // Auto-roll shortly after opening to ensure transitions apply
@@ -285,7 +285,7 @@
 
   function updateDiceHeroAfterRoll(die, outcome){
     const hero = $('#dice-hero-image');
-    hero.style.backgroundPositionY = `-${outcome.spriteIndex*139}px`;
+    hero.style.backgroundPositionY = `-${outcome.spriteIndex*89}px`;
   }
 
   function logRound(die, outcome){
