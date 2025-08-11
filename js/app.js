@@ -464,18 +464,30 @@
   function setupBottomSheet(){
     const sheet = $('#bottom-sheet');
     const handle = $('#sheet-handle');
-    let startY = 0; let startOpen = false; let dragging = false;
+    let startY = 0; let startOpen = false; let dragging = false; let dragged = false; let usedEndEvent = "";
+
     const onStart = (y) => { startY = y; startOpen = sheet.getAttribute('aria-expanded') === 'true'; dragging = true; document.body.style.userSelect = 'none'; };
     const onMove = (y) => {
       if(!dragging) return;
       const dy = y - startY;
       if(dy < -10) sheet.setAttribute('aria-expanded','true');
       if(dy > 10) sheet.setAttribute('aria-expanded','false');
+      dragged = true;
     };
-    const onEnd = () => { dragging = false; document.body.style.userSelect = ''; };
+    const onEnd = (event, y) => { 
+    	dragging = false;
+    	if (usedEndEvent == ""){ usedEndEvent = event; }
+    	
+    	if(dragged){ dragged = false; document.body.style.userSelect = ''; }
+    	else if (usedEndEvent == event && y == startY){ sheet.setAttribute('aria-expanded', sheet.getAttribute('aria-expanded')==='true'?'false':'true'); } 
+    };
+
     handle.addEventListener('pointerdown', (e)=>{ handle.setPointerCapture(e.pointerId); onStart(e.clientY); });
+    handle.addEventListener('touchstart', (e)=>{ handle.setPointerCapture(e.changedTouches[0].identifier); onStart(e.changedTouches[0].clientY); });
     handle.addEventListener('pointermove', (e)=> onMove(e.clientY));
-    handle.addEventListener('pointerup', onEnd);
+    handle.addEventListener('touchmove', (e)=> onMove(e.changedTouches[0].clientY));
+    handle.addEventListener('pointerup', (e)=> onEnd('pointerup', e.clientY));
+    handle.addEventListener('touchend', (e)=> onEnd('touchend', e.changedTouches[0].clientY));
     handle.addEventListener('keydown', (e)=>{
       if(e.key==='Enter' || e.key===' '){ e.preventDefault(); sheet.setAttribute('aria-expanded', sheet.getAttribute('aria-expanded')==='true'?'false':'true'); }
     });
