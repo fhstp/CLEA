@@ -471,12 +471,10 @@
     const onMove = (y) => {
       if(!dragging) return;
       const dy = y - startY;
-      if(dy < -10) sheet.setAttribute('aria-expanded','true');
-      if(dy > 10) sheet.setAttribute('aria-expanded','false');
-      dragged = true;
+      if(dy < -10){ sheet.setAttribute('aria-expanded','true'); dragged = true; } 
+      if(dy > 10){ sheet.setAttribute('aria-expanded','false'); dragged = true; } 
     };
     const onEnd = (event, y) => { 
-    	alert(event);
     	dragging = false;
     	if (usedEndEvent == ""){ usedEndEvent = event; }
     	
