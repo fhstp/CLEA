@@ -476,6 +476,7 @@
       dragged = true;
     };
     const onEnd = (event, y) => { 
+    	alert(event);
     	dragging = false;
     	if (usedEndEvent == ""){ usedEndEvent = event; }
     	
