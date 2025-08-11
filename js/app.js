@@ -224,7 +224,7 @@
   }
 
   function setCubeFacesForDie(cube, die){
-    const sizeY = 94; // sprite frame height placeholder
+    const sizeY = 96; // sprite frame height placeholder
     const faces = $$('.face', cube);
     // Map three outcomes to parallel faces
     const mapping = [
