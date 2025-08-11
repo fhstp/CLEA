@@ -42,6 +42,7 @@ button{font:inherit}
 .dice-btn{display:grid;grid-template-columns:64px 1fr 44px;gap:12px;align-items:center;width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#ffffff;box-shadow:0 1px 2px rgba(16,24,40,.06)}
 .dice-btn .thumb{width:64px;height:63px;border-radius:8px;background-image:url('../assets/spritethumb.png');background-repeat:no-repeat;background-size:100% auto}
 .dice-btn .name{font-weight:700;color:var(--text)}
+.dice-btn .name span{font-weight: 100;font-style: italic;color: #666;font-size: smaller;}
 .dice-btn .help{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#ffffff;color:#334155}
 
 /* Modals */
@@ -55,6 +56,7 @@ button{font:inherit}
 .modal-card .danger{background:var(--danger);border:0;color:#fff;padding:10px 14px;border-radius:10px}
 .modal.wide .modal-card{width:300px}
 .small{color:var(--muted)}
+.modal-card p#dice-small-text{min-height:4em;font-size:smaller;font-style:italic;text-align:center;}
 
 /* Dice 3D */
 .dice-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-size:cover;border-radius:12px}
@@ -69,18 +71,11 @@ button{font:inherit}
 .face.bottom{transform:rotateX(-90deg) translateZ(48px)}
 .cta{text-align:center;color:var(--muted)}
 
-/*.face,
-.dice-btn .thumb,
-.dice-hero .image {
-  background-repeat: no-repeat;
-  background-size: 100% auto; 
-}*/
-
 /* Landing options */
-.landing-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.landing-options{display:contents;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
 .landing-options .option{padding:16px;border-radius:12px;border:1px solid var(--border);background:#ffffff}
-.option.points{background:rgba(14,165,233,.08)}
-.option.challenge{background:rgba(124,58,237,.08)}
+.option.points{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: right -270px; background-repeat:no-repeat;background-size:54px}
+.option.challenge{background:rgba(124,58,237,.08);background-image:url('../assets/spritethumb.png');background-position: right -108px;background-repeat:no-repeat;background-size:54px}
 
 /* Bottom sheet */
 .sheet{position:fixed;left:0;right:0;bottom:0;transform:translateY(calc(100% - 48px));transition:transform .3s ease;z-index:30}

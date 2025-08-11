@@ -39,7 +39,11 @@
       'help.title': 'How to play',
       'help.desc': 'Choose a die, roll it, then follow the board steps and note emissions. Use points/challenge if you land on those spaces.',
       'dice.small': 'Roll to see your mobility action!',
-      'dice.cta': 'Tap the die to roll',
+      'dice.cta': '...',
+      'dice.diceText': 'Rolling die...', 
+      'dice.actionMove': 'Move', 
+      'dice.actionTake': 'Take',
+      'dice.actionField': 'fields', 
       'landingOptions.title': 'Did you land on a special field?',
       'landingOptions.points': 'Points',
       'landingOptions.challenge': 'Challenge',
@@ -70,7 +74,11 @@
       'help.title': 'So funktioniert es',
       'help.desc': 'Wähle einen Würfel, würfle, folge den Feldern und notiere Emissionen. Nutze Punkte/Herausforderung bei entsprechenden Feldern.',
       'dice.small': 'Würfle für deine Mobilitätsaktion!',
-      'dice.cta': 'Tippe zum Würfeln',
+      'dice.cta': '...',
+      'dice.diceText': 'Würfeln...', 
+      'dice.actionMove': 'Zieh', 
+      'dice.actionTake': 'Nimm',
+      'dice.actionField': 'Felder',
       'landingOptions.title': 'Bist du auf einem Sonderfeld gelandet?',
       'landingOptions.points': 'Punkte',
       'landingOptions.challenge': 'Herausforderung',
@@ -106,26 +114,57 @@
   // Each die has 3 outcomes (parallel faces): steps & emissions
   // Also provide color for chart
   const diceDefs = [
-    { id: 'A', color: getCss('--dice-a'), name: { en: 'Walking', de: 'Zu Fuß' } , heroIndexBase: 0, outcomes: [
-      { face: 1, steps: 1, emissions: 0, spriteIndex: 0 },
-      { face: 2, steps: 1, emissions: 0, spriteIndex: 1 },
-      { face: 3, steps: 2, emissions: 0, spriteIndex: 2 },
-    ] },
-    { id: 'B', color: getCss('--dice-b'), name: { en: 'Bike', de: 'Fahrrad' } , heroIndexBase: 3, outcomes: [
-      { face: 1, steps: 3, emissions: 1, spriteIndex: 3 },
-      { face: 2, steps: 2, emissions: 1, spriteIndex: 4 },
-      { face: 3, steps: 3, emissions: 2, spriteIndex: 5 },
-    ] },
-    { id: 'C', color: getCss('--dice-c'), name: { en: 'Public Transport', de: 'ÖPNV' } , heroIndexBase: 6, outcomes: [
-      { face: 1, steps: 3, emissions: 2, spriteIndex: 6 },
-      { face: 2, steps: 4, emissions: 3, spriteIndex: 7 },
-      { face: 3, steps: 4, emissions: 4, spriteIndex: 8 },
-    ] },
-    { id: 'D', color: getCss('--dice-d'), name: { en: 'Car', de: 'Auto' } , heroIndexBase: 9, outcomes: [
-      { face: 1, steps: 5, emissions: 4, spriteIndex: 9 },
-      { face: 2, steps: 5, emissions: 5, spriteIndex: 10 },
-      { face: 3, steps: 6, emissions: 6, spriteIndex: 11 },
-    ] },
+  	{ 
+    	id: 'A', 
+    	color: getCss('--dice-a'), 
+    	name: { en: 'Human-Powered', de: 'Muskelbetrieb' },
+    	description: { en: 'White Die', de: 'Weißer Würfel' }, 
+    	action: { en: 'Move 1-2 / 0 emissions', de: 'Zieh 1–2 / 0 Emissionen' }, 
+    	heroIndexBase: 0, 
+    	outcomes: [
+    		{ face: 1, steps: 1, emissions: 0, spriteIndex: 0, name: { en: 'Rollers make no smoke, they are as clean as walking.', de: 'Roller machen keinen Rauch, so sauber wie zu Fuß gehen.' } },
+			{ face: 2, steps: 1, emissions: 0, spriteIndex: 1, name: { en: 'Skates are planet-friendly. They use no fuel, just your legs.', de: 'Skates sind umweltfreundlich, sie brauchen keinen Treibstoff, nur deine Beine.' } },
+			{ face: 3, steps: 2, emissions: 0, spriteIndex: 2, name: { en: 'Bikes make no pollution, just stronger legs.', de: 'Radfahren verursacht keine Abgase, nur stärkere Muskeln.' } }
+		] 
+	}, { 
+    	id: 'B', 
+    	color: getCss('--dice-b'), 
+    	name: { en: 'Shared Low-Emission', de: 'Gemeinschaft Grün' }, 
+    	description: { en: 'Orange Die', de: 'Oranger Würfel' }, 
+    	action: { en: 'Move 2-3 / 1-2 emissions', de: 'Zieh 2–3 / 1–2 Emissionen' }, 
+    	heroIndexBase: 3, 
+    	outcomes: [
+			{ face: 1, steps: 3, emissions: 1, spriteIndex: 3, name: { en: 'Trains share one engine for many people resulting in less smoke per person.', de: 'Züge teilen sich einen Motor für viele Menschen, dadurch entsteht pro Person weniger Rauch.' } },
+			{ face: 2, steps: 2, emissions: 1, spriteIndex: 4, name: { en: 'Trams run on electricity. It can take as many people as 50 cars but without the fumes.', de: 'Die S-Bahn fährt mit Strom. Sie kann so viele Menschen mitnehmen wie 50 Autos, aber ohne Abgase.' } },
+			{ face: 3, steps: 3, emissions: 2, spriteIndex: 5, name: { en: 'One bus ride per person is cleaner than each person driving their own car.', de: 'Eine Busfahrt pro Person ist sauberer, als wenn jede Person mit dem eigenen Auto fährt.' } }
+    	] 
+    }, 
+    { 
+    	id: 'C', 
+		color: getCss('--dice-c'), 
+		name: { en: 'Motor-Driven', de: 'Motorbetrieb' }, 
+		description: { en: 'Gray Die', de: 'Grauer Würfel' },
+		action: { en: 'Move 3-4 / 2-4 emissions', de: 'Zieh 3–4 / 2–4 Emissionen' }, 
+		heroIndexBase: 6, 
+		outcomes: [
+			{ face: 1, steps: 3, emissions: 2, spriteIndex: 6, name: { en: 'Motorbikes make less smoke than cars but more than buses per person.', de: 'Motorräder machen weniger Abgase als Autos, aber mehr als Busse pro Person.' } },
+			{ face: 2, steps: 4, emissions: 3, spriteIndex: 7, name: { en: 'Cars make a lot of smoke. Like burning a big bag of charcoal for each trip.', de: 'Autos verursachen viele Abgase, wie wenn man für jede Fahrt einen großen Sack Kohle verbrennt.' } },
+			{ face: 3, steps: 4, emissions: 4, spriteIndex: 8, name: { en: 'Trucks carry heavy stuff but one truck can pollute as much as dozens of cars in one day.', de: 'Ein einziger LKW kann so viele Abgase ausstoßen wie dutzende Autos an einem Tag.' } }
+		] 
+	},
+    { 
+    	id: 'D', 
+    	color: getCss('--dice-d'), 
+    	name: { en: 'Shared High-Emission', de: 'Gemeinschaft Turbo' }, 
+    	description: { en: 'Red Die', de: 'Roter Würfel' },
+    	action: { en: 'Move 5-6 / 5-6 emissions', de: 'Zieh 5–6 / 5–6 Emissionen' }, 
+    	heroIndexBase: 9, 
+    	outcomes: [
+			{ face: 1, steps: 5, emissions: 4, spriteIndex: 9, name: { en: 'One plane trip can make as much smoke as hundreds of cars driving all week.', de: 'Ein Flug kann so viele Abgase verursachen wie hunderte Autos, die eine ganze Woche lang fahren.' } },
+			{ face: 2, steps: 5, emissions: 5, spriteIndex: 10, name: { en: 'A short helicopter trip makes more smoke than 100 bus rides.', de: 'Ein kurzer Helikopterflug verursacht mehr Abgase als 100 Busfahrten.' } },
+			{ face: 3, steps: 6, emissions: 6, spriteIndex: 11, name: { en: 'Big ships make huge clouds of smoke, even bigger than planes sometimes.', de: 'Große Schiffe erzeugen riesige Rauchwolken, manchmal sogar mehr als Flugzeuge.' } }
+		] 
+	}
   ];
 
   function getCss(varName){
@@ -180,7 +219,13 @@
       btn.dataset.diceId = die.id;
       btn.innerHTML = `
         <div class="thumb" style="background-position-y: -${(die.heroIndexBase)*64}px"></div>
-        <div class="name">${die.name[st.currentLanguage] || die.name.en}</div>
+        <div class="name">
+        	${die.name[st.currentLanguage] || die.name.en}<br/>
+        	<span>
+        		${die.action[st.currentLanguage] || die.action.en}<br/>
+        		${die.description[st.currentLanguage] || die.description.en}
+    		</span>
+        </div>
         <div><button class="help" aria-label="help">?</button></div>
       `;
       btn.addEventListener('click', (ev) => {
@@ -214,8 +259,11 @@
     const cube = $('#dice-cube');
     const cta = $('#dice-cta');
     const step = $('#dice-step');
+    const diceText = $('#dice-small-text');
+
     step.hidden = true;
     cta.textContent = t('dice.cta');
+    diceText.textContent = t('dice.diceText');
     hero.style.backgroundPositionY = `-${1068}px`;
     dlg.showModal();
     // Wait a frame so layout is available before measuring
@@ -275,13 +323,17 @@
       lastRoll = { outcome, faceRotation: faceTarget };
       logRound(currentDie, outcome);
       updateDiceHeroAfterRoll(currentDie, outcome);
-      $('#dice-cta').textContent = `+${outcome.steps} / ${outcome.emissions} CO₂`;
+      $('#dice-cta').textContent = `${t('dice.actionMove')} ${outcome.steps} ${t('dice.actionField')} / ${t('dice.actionTake')} ${outcome.emissions} CO₂`;
     }, duration + 20);
   }
 
   function updateDiceHeroAfterRoll(die, outcome){
     const hero = $('#dice-hero-image');
     hero.style.backgroundPositionY = `-${outcome.spriteIndex*89}px`;
+
+    const st = loadState();
+    const diceText = $('#dice-small-text');
+    diceText.innerHTML = `${outcome.name[st.currentLanguage] || outcome.name.en}`;
   }
 
   function logRound(die, outcome){
