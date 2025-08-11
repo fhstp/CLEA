@@ -230,6 +230,7 @@
     // Use actual rendered height in CSS pixels (border-box) to avoid DPR rounding
     const rect = cube.getBoundingClientRect();
     const sizeY = Math.max(1, Math.round(rect.height)) || 96;
+    alert(sizeY);
     const faces = $$('.face', cube);
     // Map three outcomes to parallel faces
     const mapping = [
@@ -262,6 +263,9 @@
     // spin random and settle to faceTarget
     const randX = 360* (2 + Math.floor(Math.random()*2));
     const randY = 360* (2 + Math.floor(Math.random()*2));
+    //lateral view of dice:
+    //cube.style.transitionDuration = '0ms';
+    //cube.style.transform = 'rotateX(-30deg) rotateY(45deg)';
     cube.style.transitionDuration = duration + 'ms';
     cube.style.transform = `rotateX(${randX + faceTarget.x}deg) rotateY(${randY + faceTarget.y}deg)`;
     hasRolled = true;
