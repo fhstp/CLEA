@@ -224,7 +224,7 @@
   }
 
   function setCubeFacesForDie(cube, die){
-    const sizeY = 94; // sprite frame height placeholder
+    const sizeY = (parseFloat(getCss('--dice-size')) - 2); // dice size - 2px from borders
     const faces = $$('.face', cube);
     // Map three outcomes to parallel faces
     const mapping = [
@@ -233,8 +233,8 @@
       { cls: 'top', idx: 2 }, { cls: 'bottom', idx: 2 },
     ];
     mapping.forEach((m, i) => {
-      const outcome = die.outcomes[m.idx];
       const el = cube.querySelector('.' + m.cls);
+      const outcome = die.outcomes[m.idx];
       if(el){
       	el.style.backgroundPositionY = `-${outcome.spriteIndex*sizeY}px`; 
         /*switch(outcome.spriteIndex){
