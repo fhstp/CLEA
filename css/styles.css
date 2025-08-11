@@ -40,7 +40,7 @@ button{font:inherit}
 /* Dice list */
 .dice-list{display:flex;flex-direction:column;gap:12px;padding:12px}
 .dice-btn{display:grid;grid-template-columns:64px 1fr 44px;gap:12px;align-items:center;width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#ffffff;box-shadow:0 1px 2px rgba(16,24,40,.06)}
-.dice-btn .thumb{width:64px;height:64px;border-radius:8px;background:#f1f5f9;background-image:url('../assets/spritedice.png');background-size:cover}
+.dice-btn .thumb{width:64px;height:64px;border-radius:8px;background:#f1f5f9;background-image:url('../assets/spritedice.png');background-repeat:no-repeat;background-size:100% auto}
 .dice-btn .name{font-weight:700;color:var(--text)}
 .dice-btn .help{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#ffffff;color:#334155}
 
@@ -60,7 +60,7 @@ button{font:inherit}
 .dice-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-size:cover;border-radius:12px}
 .dice-roller{perspective:800px;display:grid;place-items:center;height:180px}
 .cube{width:var(--dice-size);height:var(--dice-size);position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.7,.3,1)}
-.face{position:absolute;width:100%;height:100%;background:#ffffff;border:1px solid #666666;border-radius:8px;background-image:url('../assets/spritedice.png');background-size:cover}
+.face{position:absolute;width:100%;height:100%;background:#ffffff;border:1px solid #666666;border-radius:8px;background-image:url('../assets/spritedice.png');background-repeat:no-repeat;background-size:100% auto;background-origin:border-box}
 .face.front{transform:translateZ(48px)}
 .face.back{transform:rotateY(180deg) translateZ(48px)}
 .face.right{transform:rotateY(90deg) translateZ(48px)}

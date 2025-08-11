@@ -217,14 +217,19 @@
     step.hidden = true;
     cta.textContent = t('dice.cta');
     hero.style.backgroundPositionY = `-${1068}px`;
-    setCubeFacesForDie(cube, die);
     dlg.showModal();
-    // Auto-roll shortly after opening to ensure transitions apply
-    setTimeout(() => rollDie(), 60);
+    // Wait a frame so layout is available before measuring
+    requestAnimationFrame(() => {
+      setCubeFacesForDie(cube, die);
+      // Auto-roll shortly after opening to ensure transitions apply
+      setTimeout(() => rollDie(), 60);
+    });
   }
 
   function setCubeFacesForDie(cube, die){
-    const sizeY = (parseFloat(getCss('--dice-size')) - 2); // dice size - 2px from borders
+    // Use actual rendered height in CSS pixels (border-box) to avoid DPR rounding
+    const rect = cube.getBoundingClientRect();
+    const sizeY = Math.max(1, Math.round(rect.height)) || 96;
     const faces = $$('.face', cube);
     // Map three outcomes to parallel faces
     const mapping = [
@@ -232,26 +237,12 @@
       { cls: 'right', idx: 1 }, { cls: 'left', idx: 1 },
       { cls: 'top', idx: 2 }, { cls: 'bottom', idx: 2 },
     ];
-    mapping.forEach((m, i) => {
+    mapping.forEach((m) => {
       const el = cube.querySelector('.' + m.cls);
       const outcome = die.outcomes[m.idx];
       if(el){
-      	el.style.backgroundPositionY = `-${outcome.spriteIndex*sizeY}px`; 
-        /*switch(outcome.spriteIndex){
-          case 0: el.style.backgroundPositionY = `-${0*sizeY}px`; break;
-          case 1: el.style.backgroundPositionY = `-${1*sizeY}px`; break;
-          case 2: el.style.backgroundPositionY = `-${1.96*sizeY}px`; break;
-          case 3: el.style.backgroundPositionY = `-${2.95*sizeY}px`; break;
-          case 4: el.style.backgroundPositionY = `-${3.92*sizeY}px`; break;
-          case 5: el.style.backgroundPositionY = `-${4.9*sizeY}px`; break;
-          case 6: el.style.backgroundPositionY = `-${5.89*sizeY}px`; break;
-          case 7: el.style.backgroundPositionY = `-${6.85*sizeY}px`; break;
-          case 8: el.style.backgroundPositionY = `-${7.83*sizeY}px`; break;
-          case 9: el.style.backgroundPositionY = `-${8.82*sizeY}px`; break;
-          case 10: el.style.backgroundPositionY = `-${9.8*sizeY}px`; break;
-          case 11: el.style.backgroundPositionY = `-${10.77*sizeY}px`; break;
-
-        }*/
+        const y = Math.round(outcome.spriteIndex * sizeY);
+        el.style.backgroundPosition = `0px -${y}px`;
       }
     });
     cube.style.transform = 'rotateX(0deg) rotateY(0deg)';
