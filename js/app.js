@@ -224,7 +224,7 @@
   }
 
   function setCubeFacesForDie(cube, die){
-    const sizeY = 96; // sprite frame height placeholder
+    const sizeY = 94; // sprite frame height placeholder
     const faces = $$('.face', cube);
     // Map three outcomes to parallel faces
     const mapping = [
@@ -236,7 +236,8 @@
       const outcome = die.outcomes[m.idx];
       const el = cube.querySelector('.' + m.cls);
       if(el){
-        switch(outcome.spriteIndex){
+      	el.style.backgroundPositionY = `-${outcome.spriteIndex*sizeY}px`; 
+        /*switch(outcome.spriteIndex){
           case 0: el.style.backgroundPositionY = `-${0*sizeY}px`; break;
           case 1: el.style.backgroundPositionY = `-${1*sizeY}px`; break;
           case 2: el.style.backgroundPositionY = `-${1.96*sizeY}px`; break;
@@ -250,7 +251,7 @@
           case 10: el.style.backgroundPositionY = `-${9.8*sizeY}px`; break;
           case 11: el.style.backgroundPositionY = `-${10.77*sizeY}px`; break;
 
-        }
+        }*/
       }
     });
     cube.style.transform = 'rotateX(0deg) rotateY(0deg)';
