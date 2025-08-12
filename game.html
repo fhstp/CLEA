@@ -11,12 +11,8 @@
   </head>
   <body data-page="game">
     <header class="topbar">
-      <button id="btn-identity" class="icon-btn left" aria-haspopup="dialog" aria-controls="modal-identity" title="Identity" data-i18n-title="game.identity">
-        <span class="icon">🪪</span>
-      </button>
-      <button id="btn-help" class="icon-btn right" aria-haspopup="dialog" aria-controls="modal-help" title="Help" data-i18n-title="game.help">
-        <span class="icon">❔</span>
-      </button>
+      <button id="btn-identity" class="icon-btn left" aria-haspopup="dialog" aria-controls="modal-identity" title="Identity" data-i18n-title="game.identity"></button>
+      <button id="btn-info" class="icon-btn right" aria-haspopup="dialog" aria-controls="modal-info" title="Help" data-i18n-title="game.help"></button>
     </header>
 
     <main class="game">
@@ -29,10 +25,14 @@
     <!-- Modals -->
     <dialog id="modal-identity" class="modal">
       <form method="dialog" class="modal-card">
+        <div class="identity-hero">
+          <div class="sprite image" id="identity-hero-image" aria-hidden="true"></div>
+        </div>
         <h2 data-i18n="identity.title">Play with identity cards?</h2>
         <p data-i18n="identity.desc">Identity cards let you role-play (e.g., young, elderly, person with disabilities) to reflect diverse mobility needs.</p>
         <div class="modal-actions">
-          <button value="no" class="secondary" data-i18n="common.no">No</button>
+          <button value="dismiss" class="secondary" data-i18n="common.dismiss">Dismiss</button>
+          <button value="no" class="danger" data-i18n="common.no">No</button>
           <button value="yes" class="primary" data-i18n="common.yes">Yes</button>
         </div>
       </form>
@@ -40,10 +40,32 @@
 
     <dialog id="modal-help" class="modal">
       <form method="dialog" class="modal-card">
+        <div class="help-hero">
+          <div class="sprite image" id="help-hero-image" aria-hidden="true"></div>
+        </div>
         <h2 data-i18n="help.title">How to play</h2>
         <p data-i18n="help.desc">Choose a die, roll it, then follow the board steps and note emissions. Use points/challenge if you land on those spaces.</p>
+        <p data-i18n="help.descDie">Some dice let you move far in a single turn but produce a lot of emissions. You may choose any die, unless your identity card forbids it or a challenge card restricts your choice.</p>
         <div class="modal-actions">
-          <button class="primary" value="ok" data-i18n="common.done">Done</button>
+          <button class="primary" value="ok" data-i18n="common.dismiss">Dismiss</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="modal-info" class="modal">
+      <form method="dialog" class="modal-card">
+        <div class="info-hero">
+          <div class="sprite image" id="info-hero-image" aria-hidden="true"></div>
+        </div>
+        <h2 data-i18n="info.title">About us</h2>
+        <p data-i18n="info.desc"></p>
+        <p><b>Ersteller / Creator:</b><br/> Jonathan Latour & Philipp Herzog</p>
+        <p><b>Redaktion / Editors:</b><br/> Hirut Grossberger, Pamela Nolz, Susanne Binder, Victor-Adriel De-Jesus-Oliveira, Zora Heis, Ana-Klarissa Breitkopf</p>
+        <p><b>Illustrationen / Illustrations:</b><br/> Ana-Klarissa Breitkopf</p>
+        <p><b>Companion App:</b><br/> Victor-Adriel De-Jesus-Oliveira</p>
+
+        <div class="modal-actions">
+          <button class="secondary" value="ok" data-i18n="common.dismiss">Dismiss</button>
         </div>
       </form>
     </dialog>
@@ -95,17 +117,69 @@
           <input id="points-input" type="number" inputmode="numeric" min="0" step="1" />
         </label>
         <div class="modal-actions">
+          <button class="secondary" id="points-cancel" value="cancel" data-i18n="common.cancel">Cancel</button>
           <button class="primary" id="points-done" value="done" data-i18n="common.done">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="modal-emissions" class="modal">
+      <form method="dialog" class="modal-card">
+        <h2 data-i18n="emissions.title">Edit emissions</h2>
+        <label>
+          <span data-i18n="emissions.hint">Add or remove emissions:</span>
+          <input id="emissions-input" type="number" inputmode="numeric" min="0" step="1" />
+        </label>
+        <div class="modal-actions">
+          <button class="secondary" id="emissions-cancel" value="cancel" data-i18n="common.cancel">Cancel</button>
+          <button class="primary" id="emissions-done" value="done" data-i18n="common.done">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="modal-steps" class="modal">
+      <form method="dialog" class="modal-card">
+        <h2 data-i18n="steps.title">Edit steps</h2>
+        <label>
+          <span data-i18n="steps.hint">How many steps have you moved?</span>
+          <input id="steps-input" type="number" inputmode="numeric" min="0" step="1" />
+        </label>
+        <div class="modal-actions">
+          <button class="secondary" id="steps-cancel" value="cancel" data-i18n="common.cancel">Cancel</button>
+          <button class="primary" id="steps-done" value="done" data-i18n="common.done">Done</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="modal-final" class="modal">
+      <form method="dialog" class="modal-card">
+        <h2 data-i18n="final.title">Final Points</h2>
+        <span data-i18n="final.hint">For each 3 emissions, you lose a point.</span>
+        <div class="final-options">
+          <div id="final-points" class="option points">0</div>
+          <div id="final-emissions" class="option emissions">0</div>
+          <div id="final-final" class="option final">0</div>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary" id="final-cancel" value="cancel" data-i18n="common.cancel">Cancel</button>
         </div>
       </form>
     </dialog>
 
     <dialog id="modal-challenge" class="modal">
       <form method="dialog" class="modal-card">
+        <div class="challenge-hero">
+          <div class="sprite image" id="challenge-hero-image" aria-hidden="true"></div>
+        </div>
         <h2 data-i18n="challenge.title">Challenge</h2>
         <p id="challenge-text">...</p>
-        <div class="modal-actions two">
-          <button id="challenge-points" class="secondary" value="points" data-i18n="challenge.points">Points</button>
+        
+        <div class="modal-actions challenge">
+          <button id="challenge-points" class="secondary" value="points" data-i18n="stats.points">Points</button>
+          <button id="challenge-emissions" class="secondary" value="emissions" data-i18n="stats.emissions">Emissions</button>
+          <button id="challenge-steps" class="secondary" value="steps" data-i18n="stats.steps">Steps</button>
+        </div>
+        <div class="modal-actions">
           <button id="challenge-done" class="primary" value="done" data-i18n="common.done">Done</button>
         </div>
       </form>
@@ -120,15 +194,26 @@
             <div class="label" data-i18n="stats.points">Points</div>
             <div class="value" id="stat-points-value">0</div>
           </button>
-          <div class="stat">
+          <div id="stat-challenges" class="stat">
             <div class="label" data-i18n="stats.challenges">Challenges</div>
             <div class="value" id="stat-challenges-value">0</div>
           </div>
+          <button id="stat-emissions" class="stat">
+            <div class="label" data-i18n="stats.emissions">Emissions</div>
+            <div class="value" id="stat-emissions-value">0</div>
+          </button>
+          <button id="stat-steps" class="stat">
+            <div class="label" data-i18n="stats.steps">Steps</div>
+            <div class="value" id="stat-steps-value">0</div>
+          </button>
         </div>
         <canvas id="emissions-chart" height="160"></canvas>
         <div class="sheet-footer">
-          <button id="btn-reset" class="danger" data-i18n="stats.reset">Reset</button>
-          <button id="btn-download" class="secondary" data-i18n="stats.download">Download CSV</button>
+          <div>
+            <button id="btn-reset" class="danger" data-i18n="stats.reset">Reset</button>
+            <button id="btn-download" class="secondary" aria-label="stats.download">⭳</button>
+          </div>          
+          <button id="btn-final" class="primary" data-i18n="stats.final">Final Points</button>
         </div>
       </div>
     </section>
