@@ -521,7 +521,7 @@
     dlg.showModal();
     $('#final-points').textContent = String(st.points);
     $('#final-emissions').textContent = String(st.emissions);
-    $('#final-final').textContent = `${(st.points-(st.emissions/3))} ${t('stats.points')}`;
+    $('#final-final').textContent = `${(st.points-(st.emissions/3)).toFixed(1)} ${t('stats.points')}`;
     $('#final-cancel').onclick = () => {
       dlg.close('cancel');
       if(typeof presetDoneCallback === 'function') presetDoneCallback();
