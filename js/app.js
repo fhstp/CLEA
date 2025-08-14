@@ -17,6 +17,22 @@
     state: 'mg.state',
   };
 
+  const audioMap = {
+      0: new Audio('./assets/audio/1roller.mp3'),
+      1: new Audio('./assets/audio/1skate.mp3'),
+      2: new Audio('./assets/audio/1bike.mp3'),
+      3: new Audio('./assets/audio/2train.mp3'),
+      4: new Audio('./assets/audio/2tram.mp3'),
+      5: new Audio('./assets/audio/2bus.mp3'),
+      6: new Audio('./assets/audio/3moto.mp3'),
+      7: new Audio('./assets/audio/3car.mp3'),
+      8: new Audio('./assets/audio/3truck.mp3'),
+      9: new Audio('./assets/audio/4plane.mp3'),
+      10: new Audio('./assets/audio/4helicopter.mp3'),
+      11: new Audio('./assets/audio/4ship.mp3'),
+      12: new Audio('./assets/audio/dice.mp3')
+    };
+
   const defaultState = {
     currentLanguage: 'en',
     useIdentity: false,
@@ -30,10 +46,11 @@
 
   const translations = {
     en: {
-      'nav.play': 'Play',
+      'nav.project': 'The Project',
       'landing.title': 'Sustainable Mobility Game',
       'landing.subtitle': 'Learn and play about sustainable mobility choices.',
       'landing.cta': 'Start Game',
+      'game.home': 'Home',
       'game.identity': 'Identity cards',
       'game.help': 'Help',
       'identity.title': 'Play with identity cards?',
@@ -43,6 +60,9 @@
       'help.title': 'How to play',
       'help.desc': 'Choose a die, roll it, then follow the board steps and note emissions. Use points/challenge if you land on those spaces.',
       'help.descDie': 'Some dice let you move far in a single turn but produce a lot of emissions. You may choose any die, unless your identity card forbids it or a challenge card restricts your choice.',
+      'indexhelp.desc': 'Start by reading the game instructions. Next, print the board game map and use different objects to represent the players. Finally, use the CLEA companion app to replace game materials such as dice, points, tokens, and cards.',
+      'indexhelp.maplink': 'Game Map (DE, PNG, 38.3 MB) 🔗',
+      'indexhelp.manuallink': 'Game Manual (DE, PDF, 2.6 MB) 🔗',
       'dice.small': 'Roll to see your mobility action!',
       'dice.cta': '...',
       'dice.diceText': 'Rolling die...', 
@@ -79,10 +99,11 @@
       'common.dismiss': 'Dismiss',
     },
     de: {
-      'nav.play': 'Spielen',
+      'nav.project': 'Das Projekt',
       'landing.title': 'Spiel zur nachhaltigen Mobilität',
       'landing.subtitle': 'Lerne und spiele über nachhaltige Mobilitätsentscheidungen.',
       'landing.cta': 'Spiel starten',
+      'game.home': 'Homepage',
       'game.identity': 'Identitätskarten',
       'game.help': 'Hilfe',
       'identity.title': 'Mit Identitätskarten spielen?',
@@ -92,6 +113,9 @@
       'help.title': 'So funktioniert es',
       'help.desc': 'Wähle einen Würfel, würfle, folge den Feldern und notiere Emissionen. Nutze Punkte/Herausforderung bei entsprechenden Feldern.',
       'help.descDie': 'Manche Würfel bringen dich in einem Zug weit voran, verursachen aber viele Emissionen. Du darfst jeden Würfel wählen, außer deine Identitätskarte verbietet es oder eine Herausforderungskarte schränkt deine Wahl ein.',
+      'indexhelp.desc': 'Beginne damit, die Spielanleitung zu lesen. Drucke anschließend den Spielplan aus und verwende verschiedene Gegenstände, um die Spieler:innen darzustellen. Zum Schluss nutze die CLEA-Companion-App, um Spielmaterialien wie Würfel, Punkte, Spielsteine und Karten zu ersetzen.',
+      'indexhelp.maplink': 'Spielplan (PNG, 38.3 MB) 🔗',
+      'indexhelp.manuallink': 'Spielhandbuch (PDF, 2.6 MB) 🔗',
       'dice.small': 'Würfle für deine Mobilitätsaktion!',
       'dice.cta': '...',
       'dice.diceText': 'Würfeln...', 
@@ -390,8 +414,9 @@
 
   function rollDie(){
     if(!currentDie) return;
+    audioMap[12]?.play();
     const cube = $('#dice-cube');
-    const duration = 800 + Math.floor(Math.random()*600); // 0.8-1.4s
+    const duration = 1000 + Math.floor(Math.random()*500); // 1.0s-1.5s
     const targetIdx = Math.floor(Math.random()*3); // 0..2 (three outcomes)
     const rotations = [
       { x: 0, y: 0 }, // front
@@ -408,9 +433,11 @@
     cube.style.transitionDuration = duration + 'ms';
     cube.style.transform = `rotateX(${randX + faceTarget.x}deg) rotateY(${randY + faceTarget.y}deg)`;
     hasRolled = true;
+    
     // when done
     setTimeout(() => {
       const outcome = currentDie.outcomes[targetIdx];
+      audioMap[outcome.spriteIndex]?.play();
       lastRoll = { outcome, faceRotation: faceTarget };
       logRound(currentDie, outcome);
       updateDiceHeroAfterRoll(currentDie, outcome);
@@ -523,6 +550,17 @@
     $('#final-emissions').textContent = String(st.emissions);
     $('#final-final').textContent = `${(st.points-(st.emissions/3)).toFixed(1)} ${t('stats.points')}`;
     $('#final-cancel').onclick = () => {
+      dlg.close('cancel');
+      if(typeof presetDoneCallback === 'function') presetDoneCallback();
+    };
+  }
+
+  function openIndexModal(presetDoneCallback){
+    const st = loadState();
+    const dlg = $('#modal-indexhelp');
+    dlg.returnValue = '';
+    dlg.showModal();
+    $('#indexhelp-cancel').onclick = () => {
       dlg.close('cancel');
       if(typeof presetDoneCallback === 'function') presetDoneCallback();
     };
@@ -784,6 +822,11 @@
     $('#stat-emissions')?.addEventListener('click', ()=> openEmissionsModal(()=>{}));
     $('#stat-steps')?.addEventListener('click', ()=> openStepsModal(()=>{}));
     $('#btn-final')?.addEventListener('click', ()=> openFinalModal(()=>{}));
+    
+  }
+  
+  function setupIndexHelpModal(){
+    $('#index-help')?.addEventListener('click', ()=> openIndexModal(()=>{}));
   }
 
   function init(){
@@ -792,6 +835,7 @@
     const page = document.body.dataset.page;
     if(page === 'landing'){
       setupLanguageSwitch();
+      setupIndexHelpModal();
     }
     if(page === 'game'){
       setupHelp();

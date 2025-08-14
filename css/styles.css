@@ -28,18 +28,20 @@ p{margin-top: 0px;}
 .logo.mark{font-weight:800;letter-spacing:1px}
 .landing{display:grid;place-items:center;padding:48px 16px}
 .hero{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;max-width:640px}
-.logo.placeholder{width:160px;height:160px;border-radius:24px;background:#e2e8f0;opacity:.9}
+.logo.placeholder{width:160px;height:160px;border-radius:24px;background-image:url('../assets/spritethumb.png');background-position: 0px -1920px; background-repeat:no-repeat;background-size:160px;background-color: #CCC}
 .primary-btn{display:inline-block;padding:12px 18px;background:var(--primary);color:#ffffff;border-radius:10px;font-weight:700}
 .subtitle{color:var(--muted)}
 
 /* Game topbar */
 .topbar{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface);z-index:20;border-bottom:1px solid var(--border)}
-.icon-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--border);background:#ffffff;color:var(--text);display:grid;place-items:center;box-shadow:0 1px 2px rgba(16,24,40,.06)}
-.topbar .right{margin-left:auto}
+.icon-btn{width:44px;height:44px;border-radius:999px;background:#ffffff;color:var(--text);display:grid;place-items:center;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+.topbar .right{display:flex;}
+.topbar .right .icon-btn{display:flex;margin-left: 10px}
 .icon-btn .icon{font-size:18px}
 .identity-pill{margin:8px 12px;max-width:calc(100% - 24px);padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#689167;color:#ffffff;text-wrap:auto;text-overflow:ellipsis;box-shadow:0 1px 2px rgba(16,24,40,.06);font-size:small;}
-#btn-identity{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -45px; background-repeat:no-repeat;background-size:44px}
-#btn-info{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -441px; background-repeat:no-repeat;background-size:44px;border:1px solid #000;}
+#btn-identity{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -45px; background-repeat:no-repeat;background-size:44px;border:1px solid #457244}
+#btn-info{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -441px; background-repeat:no-repeat;background-size:44px;border:1px solid #000000;}
+#btn-home{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -352px; background-repeat:no-repeat;background-size:44px;border:1px solid #ffa900;}
 
 /* Dice list */
 .dice-list{display:flex;flex-direction:column;gap:12px;padding:12px}
@@ -47,13 +49,14 @@ p{margin-top: 0px;}
 .dice-btn .thumb{width:64px;height:63px;border-radius:8px;background-image:url('../assets/spritethumb.png');background-repeat:no-repeat;background-size:100% auto}
 .dice-btn .name{font-weight:700;color:var(--text)}
 .dice-btn .name span{font-weight: 100;font-style: italic;color: #666;font-size: smaller;}
-.dice-btn .help{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#ffffff;color:#334155}
+.dice-btn .help, .nav-right .help{width:36px;height:36px;border-radius:999px;border:1px solid var(--border);background:#ffffff;color:#334155}
 
 /* Modals */
 .modal{border:0;border-radius:16px;padding:0;background:transparent;color:inherit;width:300px;}
 .modal::backdrop{background:rgba(0,0,0,.6)}
 .modal-card{background:#ffffff;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;color:var(--text)}
 .modal-card .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+.modal-card .modal-actions.indexhelp{display:contents;font-size: small;}
 .modal-card .modal-actions.two{justify-content:space-between}
 .modal-card .primary{background:var(--primary);border:0;color:#ffffff;padding:10px 14px;border-radius:10px;font-weight:700}
 .modal-card .secondary{background:#ffffff;border:1px solid var(--border);color:#0f172a;padding:10px 14px;border-radius:10px}
@@ -73,6 +76,7 @@ p{margin-top: 0px;}
 .help-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-position: 0px -1245px;background-size:cover;border-radius:12px}
 .challenge-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-position: 0px -1422px;background-size:cover;border-radius:12px}
 .info-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-position: 0px -1330px;background-size:cover;border-radius:12px}
+.indexhelp-hero .image{width:100%;height:85px;background:#f1f5f9;background-image:url('../assets/spriteheaders.png');background-position: 0px -1155px;background-size:cover;border-radius:12px}
 #modal-info p,#modal-help p{font-size: small;margin:0px;}
 
 /* Dice 3D */
@@ -116,6 +120,9 @@ p{margin-top: 0px;}
 #stat-challenges{background:rgba(124,58,237,.08);background-image:url('../assets/spritethumb.png');background-position: right -476px;background-repeat:no-repeat;background-size:68px}
 #stat-emissions{background:rgba(119,119,119,.08);background-image:url('../assets/spritethumb.png');background-position: right -272px;background-repeat:no-repeat;background-size:68px}
 #stat-steps{background:rgba(243,255,245,.8);background-image:url('../assets/spritethumb.png');background-position: right -748px;background-repeat:no-repeat;background-size:68px}
+
+footer{position:fixed;left:0;right:0;bottom:0;font-size:small;color:var(--muted);text-align: center; margin-bottom: 1rem }
+footer a{text-decoration: underline;}
 
 /* Utilities */
 .hidden{display:none !important}
