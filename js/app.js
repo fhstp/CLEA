@@ -358,6 +358,7 @@
     const help = $('#modal-help');
     if(!help) return;
     help.showModal();
+    help.focus();
   }
 
   // Dice modal state
@@ -381,6 +382,7 @@
     diceText.textContent = t('dice.diceText');
     hero.style.backgroundPositionY = `-${1068}px`;
     dlg.showModal();
+    dlg.focus();
     // Wait a frame so layout is available before measuring
     requestAnimationFrame(() => {
       setCubeFacesForDie(cube, die);
@@ -476,6 +478,7 @@
   function openLandingOptions(){
     const dlg = $('#modal-landing');
     dlg.showModal();
+    dlg.focus();
   }
 
   function openPointsModal(presetDoneCallback){
@@ -484,6 +487,7 @@
     input.value = '';
     dlg.returnValue = '';
     dlg.showModal();
+    dlg.focus();
     $('#points-done').onclick = () => {
       const add = parseInt(input.value || '0', 10) || 0;
       const st = loadState();
@@ -505,6 +509,7 @@
     input.value = '';
     dlg.returnValue = '';
     dlg.showModal();
+    dlg.focus();
     $('#emissions-done').onclick = () => {
       const add = parseInt(input.value || '0', 10) || 0;
       const st = loadState();
@@ -526,6 +531,7 @@
     input.value = '';
     dlg.returnValue = '';
     dlg.showModal();
+    dlg.focus();
     $('#steps-done').onclick = () => {
       const add = parseInt(input.value || '0', 10) || 0;
       const st = loadState();
@@ -546,6 +552,7 @@
     const dlg = $('#modal-final');
     dlg.returnValue = '';
     dlg.showModal();
+    dlg.focus();
     $('#final-points').textContent = String(st.points);
     $('#final-emissions').textContent = String(st.emissions);
     $('#final-final').textContent = `${(st.points-(st.emissions/3)).toFixed(1)} ${t('stats.points')}`;
@@ -560,6 +567,7 @@
     const dlg = $('#modal-indexhelp');
     dlg.returnValue = '';
     dlg.showModal();
+    dlg.focus();
     $('#indexhelp-cancel').onclick = () => {
       dlg.close('cancel');
       if(typeof presetDoneCallback === 'function') presetDoneCallback();
@@ -573,6 +581,7 @@
     const dlg = $('#modal-challenge');
     $('#challenge-text').textContent = pick.text[lang] || pick.text.en;
     dlg.showModal();
+    dlg.focus();
     $('#challenge-points').onclick = () => {
       dlg.close('points');
       openPointsModal(() => { resetDiceModalState(); if(afterFlow) afterFlow(); });
@@ -776,7 +785,10 @@
   }
 
   function setupHelp(){
-    $('#btn-info')?.addEventListener('click', ()=> $('#modal-info').showModal());
+    $('#btn-info')?.addEventListener('click', ()=> {
+      $('#modal-info').showModal();
+      $('#modal-info').focus();
+    });
   }
 
   function setupDiceModal(){
