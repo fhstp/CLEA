@@ -749,6 +749,7 @@
     btn.addEventListener('click', () => {
       dlg.returnValue = '';
       dlg.showModal();
+      dlg.focus();
     });
     dlg.addEventListener('close', () => {
       const st = loadState();
