@@ -11,10 +11,10 @@
   </head>
   <body data-page="game">
     <header class="topbar">
-      <a href="index.html" id="btn-home" class="icon-btn left" title="Home" data-i18n-title="game.home"></a>
+      <a href="index.html" id="btn-home" class="icon-btn left" title="Homepage" data-i18n-title="game.home" aria-label="homepage"></a>
       <div class="right">
-        <button id="btn-identity" class="icon-btn " aria-haspopup="dialog" aria-controls="modal-identity" title="Identity" data-i18n-title="game.identity"></button>
-        <button id="btn-info" class="icon-btn " aria-haspopup="dialog" aria-controls="modal-info" title="Help" data-i18n-title="game.help"></button>
+        <button id="btn-identity" class="icon-btn" aria-label="identity cards" aria-haspopup="dialog" aria-controls="modal-identity" title="Identity" data-i18n-title="game.identity"></button>
+        <button id="btn-info" class="icon-btn" aria-label="info" aria-haspopup="dialog" aria-controls="modal-info" title="Info" data-i18n-title="game.help"></button>
       </div>
     </header>
 
@@ -26,12 +26,12 @@
     </main>
 
     <!-- Modals -->
-    <dialog id="modal-identity" class="modal">
+    <dialog id="modal-identity" class="modal" aria-modal="true" aria-labelledby="modal-identity-title" tabindex="-1">
       <form method="dialog" class="modal-card">
         <div class="identity-hero">
           <div class="sprite image" id="identity-hero-image" aria-hidden="true"></div>
         </div>
-        <h2 data-i18n="identity.title">Play with identity cards?</h2>
+        <h2 id="modal-identity-title" data-i18n="identity.title">Play with identity cards?</h2>
         <p data-i18n="identity.desc">Identity cards let you role-play (e.g., young, elderly, person with disabilities) to reflect diverse mobility needs.</p>
         <div class="modal-actions">
           <button value="dismiss" class="secondary" data-i18n="common.dismiss">Dismiss</button>
@@ -190,7 +190,7 @@
 
     <!-- Bottom sheet -->
     <section id="bottom-sheet" class="sheet" aria-label="Stats panel" aria-expanded="false">
-      <div class="handle" id="sheet-handle" tabindex="0" aria-grabbed="false"></div>
+      <div class="handle" id="sheet-handle" tabindex="0" role="button" aria-grabbed="false" aria-label="Expand bottom sheet"></div>
       <div class="sheet-content">
         <div class="stats">
           <button id="stat-points" class="stat">
@@ -214,7 +214,7 @@
         <div class="sheet-footer">
           <div>
             <button id="btn-reset" class="danger" data-i18n="stats.reset">Reset</button>
-            <button id="btn-download" class="secondary" aria-label="stats.download">📥</button>
+            <button id="btn-download" class="secondary" aria-label="download game data">📥</button>
           </div>          
           <button id="btn-final" class="primary" data-i18n="stats.final">Final Points</button>
         </div>
