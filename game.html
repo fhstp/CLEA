@@ -26,12 +26,12 @@
     </main>
 
     <!-- Modals -->
-    <dialog id="modal-identity" class="modal" aria-modal="true" aria-labelledby="modal-identity-title" tabindex="-1">
+    <dialog id="modal-identity" class="modal" aria-modal="true">
       <form method="dialog" class="modal-card">
         <div class="identity-hero">
           <div class="sprite image" id="identity-hero-image" aria-hidden="true"></div>
         </div>
-        <h2 id="modal-identity-title" data-i18n="identity.title">Play with identity cards?</h2>
+        <h2 data-i18n="identity.title">Play with identity cards?</h2>
         <p data-i18n="identity.desc">Identity cards let you role-play (e.g., young, elderly, person with disabilities) to reflect diverse mobility needs.</p>
         <div class="modal-actions">
           <button value="dismiss" class="secondary" data-i18n="common.dismiss">Dismiss</button>
@@ -89,7 +89,7 @@
             <div class="face bottom"></div>
           </div>
         </div>
-        <p class="cta" id="dice-cta" data-i18n="dice.cta">Tap the die to roll</p>
+        <p class="cta" id="dice-cta" data-i18n="dice.cta" aria-live="polite"></p>
         <div class="modal-actions">
           <button id="dice-next" class="primary" value="next" data-i18n="common.next">Next</button>
         </div>
