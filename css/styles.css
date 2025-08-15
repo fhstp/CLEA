@@ -1,3 +1,13 @@
+/* ====================================================================
+   Project:  Climate Journey - Sustainable Mobility Game (CLEA - FHSTP)
+   File:     styles.css
+   Author:   Victor-Adriel de-Jesus-Oliveira
+   Created:  2025-08-10
+   Purpose:  Core styling for the companion web app.
+   Scope:    Global layout, typography, dice animations,
+             modal windows, and responsive adjustments.
+   ==================================================================== */
+
 :root{
   --bg:#f8fafc; /* slate-50 */
   --surface:#ffffff;
@@ -43,6 +53,7 @@ p{margin-top: 0px;}
 #btn-info{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -441px; background-repeat:no-repeat;background-size:44px;border:1px solid #000000;}
 #btn-home{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -352px; background-repeat:no-repeat;background-size:44px;border:1px solid #ffa900;}
 
+/* Game main */
 .game{margin-top: 50px;}
 
 /* Dice list */
@@ -117,12 +128,12 @@ p{margin-top: 0px;}
 .sheet-footer .danger{background:var(--danger);border:0;color:#fff;padding:10px 14px;border-radius:10px}
 .sheet-footer .secondary{background:#ffffff;border:1px solid var(--border);color:#0f172a;padding:10px 14px;border-radius:10px}
 .sheet-footer .primary{background:var(--primary);border:0px;color:#ffffff;padding:10px 14px;border-radius:10px;}
-
 #stat-points{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: right -340px; background-repeat:no-repeat;background-size:68px}
 #stat-challenges{background:rgba(124,58,237,.08);background-image:url('../assets/spritethumb.png');background-position: right -476px;background-repeat:no-repeat;background-size:68px}
 #stat-emissions{background:rgba(119,119,119,.08);background-image:url('../assets/spritethumb.png');background-position: right -272px;background-repeat:no-repeat;background-size:68px}
 #stat-steps{background:rgba(243,255,245,.8);background-image:url('../assets/spritethumb.png');background-position: right -748px;background-repeat:no-repeat;background-size:68px}
 
+/* Footer */
 footer{position:fixed;left:0;right:0;bottom:0;font-size:small;color:var(--muted);text-align: center; margin-bottom: 1rem }
 footer a{text-decoration: underline;}
 

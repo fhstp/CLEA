@@ -1,3 +1,20 @@
+<!-- ====================================================================
+     Project:  Climate Journey - Sustainable Mobility Game (CLEA - FHSTP)
+     File:     game.html
+     Author:   Victor-Adriel de-Jesus-Oliveira
+     Created:  2025-08-10
+     Purpose:  Main game interface page. Hosts interactive
+               dice, score tracking, and modal dialogs.
+     Structure:
+       - #dice-list: Selectable dice buttons
+       - #modal-dice: Animated dice roll display
+       - #stats: Live points, emissions, steps, and challenges
+       - #emissions-chart: Canvas chart of emissions per round
+     Notes:
+       - Requires app.js (main game logic) loaded after DOM ready
+       - Uses <dialog> elements for modals (native HTML5)
+       - Language text populated dynamically via data-i18n attributes
+   ==================================================================== -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -202,7 +219,7 @@
           <div id="final-final" class="option final">0</div>
         </div>
         <div class="modal-actions">
-          <button class="secondary" id="final-cancel" value="cancel" data-i18n="common.cancel">Cancel</button>
+          <button class="secondary" id="final-cancel" value="cancel" data-i18n="common.dismiss">Dismiss</button>
         </div>
       </form>
     </dialog>

@@ -1,3 +1,17 @@
+<!-- ====================================================================
+     Project:  Climate Journey - Sustainable Mobility Game (CLEA - FHSTP)
+     File:     index.html
+     Author:   Victor-Adriel de-Jesus-Oliveira
+     Created:  2025-08-10
+     Purpose:  Main game interface page. Hosts interactive
+               dice, score tracking, and modal dialogs.
+     Structure:
+       - #lang-switch: Select German or English language
+       - #index-help: Links to instructions and game map/board
+     Notes:
+       - Uses <dialog> elements for modals (native HTML5)
+       - Language text populated dynamically via data-i18n attributes
+   ==================================================================== -->
 <!doctype html>
 <html lang="en">
   <head>
@@ -54,8 +68,8 @@
         <div class="logo mark">CLEA</div>
       </div>
       <nav class="nav-right">
-        <a class="nav-link" href="https://research.fhstp.ac.at/projekte/clea-check-and-leave-for-environmental-action" data-i18n="nav.project">The Project</a>
-        <div class="lang-switch" role="group" aria-label="language switch">
+        <a class="nav-link" data-i18n-href="href.project" data-i18n="nav.project">The Project</a>
+        <div id="lang-switch" class="lang-switch" role="group" aria-label="language switch">
           <button class="lang-btn" data-lang="en">EN</button>
           <button class="lang-btn" data-lang="de">DE</button>
         </div>
@@ -80,8 +94,8 @@
         <h2 data-i18n="help.title">How to play</h2>
         <p data-i18n="indexhelp.desc">Start by reading the game instructions (a link to the game manual is provided below). Next, print the board game map and use different objects to represent the players. Finally, use the CLEA companion app to replace game materials such as dice, points, tokens, and cards. </p>
         <div class="modal-actions indexhelp">
-          <a href ="https://github.com/fhstp/CLEA/blob/main/assets/game/Leitung.pdf?raw=true" class="secondary" value="points" data-i18n="indexhelp.manuallink">Manual</a>
-          <a href ="https://github.com/fhstp/CLEA/blob/main/assets/game/Karte.png?raw=true" class="secondary" value="emissions" data-i18n="indexhelp.maplink">Map</a>
+          <a data-i18n-href="href.gamemanual" class="secondary" value="points" data-i18n="indexhelp.manuallink">Manual</a>
+          <a data-i18n-href="href.gamemap" class="secondary" value="emissions" data-i18n="indexhelp.maplink">Map</a>
         </div><br/>
         <div class="modal-actions">
           <button id="indexhelp-cancel" class="primary" value="ok" data-i18n="common.dismiss">Dismiss</button>

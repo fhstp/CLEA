@@ -1,12 +1,54 @@
-/*
-  Mobility Game - static JS
-  - i18n (EN/DE)
-  - identity/help modals
-  - dice list and modal with 3D roll
-  - landing options, points & challenge flows
-  - bottom sheet with stats + emissions line chart (canvas)
-  - localStorage persistence + CSV export
-*/
+/**
+ * ====================================================================
+ * Project:  Climate Journey - Sustainable Mobility Game (CLEA - FHSTP)
+ * File:     app.js
+ * Author:   Victor-Adriel de-Jesus-Oliveira
+ * Created:  2025-08-10
+ * Version:  1.0
+ * ====================================================================
+ *
+ * Description:
+ *   Main client-side logic for the Climate Journey companion web app.
+ *   Provides the interactive dice-rolling interface, identity and 
+ *   challenge card flows, language switching, score tracking, 
+ *   emissions chart rendering, and CSV export.
+ *
+ * Purpose:
+ *   To replace and augment physical board game components 
+ *   (dice, points, tokens, identity/challenge cards) with an 
+ *   accessible, responsive, and multilingual web application.
+ *
+ * Key Features:
+ *   - Internationalization (English/German) with persistent language preference.
+ *   - Identity cards and challenge cards with randomized selection.
+ *   - Animated 3D dice rolling with audio feedback.
+ *   - Real-time tracking of points, emissions, steps, and challenges.
+ *   - Emissions line chart rendering on a <canvas> element.
+ *   - CSV export of game rounds data.
+ *   - LocalStorage-based state persistence between sessions.
+ *
+ * Inputs:
+ *   - User interactions via clicks/touches on dice, buttons, and modals.
+ *   - Optional game state from LocalStorage (if resuming a session).
+ *
+ * Outputs:
+ *   - Updated UI elements reflecting current game state.
+ *   - Downloadable CSV file with gameplay statistics.
+ *   - Audio-visual feedback for dice rolls and game events.
+ *
+ * Dependencies:
+ *   - Standard DOM APIs (querySelector, CanvasRenderingContext2D, etc.)
+ *   - HTML5 <dialog> elements for modal interactions.
+ *   - CSS variables for dice color mapping.
+ *   - Audio assets in ./assets/audio/
+ *
+ * Notes:
+ *   - This script must run after DOM content is fully loaded.
+ *   - Requires specific HTML structure with IDs/data attributes used in queries.
+ *   - Designed to work in modern browsers with ES6+ support.
+ *
+ * =====================================================
+ */
 
 (() => {
   const $ = (sel, root=document) => root.querySelector(sel);
@@ -41,7 +83,7 @@
     challengeCount: 0,
     emissions: 0,
     steps: 0,
-    rounds: [], // { turn, diceId, diceColor, steps, emissions, pointsAfter }
+    rounds: [], // { turn, diceId, diceColor, diceName, diceType, steps, emissions, pointsAfter }
   };
 
   const translations = {
@@ -97,6 +139,9 @@
       'common.done': 'Done',
       'common.cancel': 'Cancel',
       'common.dismiss': 'Dismiss',
+      'href.gamemap': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Karte.png?raw=true',
+      'href.gamemanual': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Leitung.pdf?raw=true',
+      'href.project': 'https://research.fhstp.ac.at/en/projects/clea-check-and-leave-for-environmental-action',
     },
     de: {
       'nav.project': 'Das Projekt',
@@ -150,6 +195,9 @@
       'common.done': 'Fertig',
       'common.cancel': 'Abbrechen',
       'common.dismiss': 'Schließen',
+      'href.gamemap': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Karte.png?raw=true',
+      'href.gamemanual': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Leitung.pdf?raw=true',
+      'href.project': 'https://research.fhstp.ac.at/projekte/clea-check-and-leave-for-environmental-action',
     }
   };
 
@@ -225,59 +273,58 @@
     { id: 'c36', text: { en: 'Someone in your group is causing too much CO₂ while driving! This round you may decide up to two times that another person must take a different die. Then discard this card.', de: 'Jemand in eurer Gruppe verursacht zu viel CO₂ beim Fahren! Du darfst in dieser Runde bis zu zwei Mal bestimmen, dass eine andere Person einen anderen Würfel nehmen muss. Danach legst du die Karte ab.' } },
   ];
 
-  // Each die has 3 outcomes (parallel faces): steps & emissions
   // Also provide color for chart
   const diceDefs = [
   	{ 
-    	id: 'A', 
+    	id: 'White', 
     	color: getCss('--dice-a'), 
     	name: { en: 'Human-Powered', de: 'Muskelbetrieb' },
     	description: { en: 'White Die', de: 'Weißer Würfel' }, 
     	action: { en: 'Move 1-2 / 0 emissions', de: 'Zieh 1–2 / 0 Emissionen' }, 
     	heroIndexBase: 0, 
     	outcomes: [
-    	 { face: 1, steps: 1, emissions: 0, spriteIndex: 0, name: { en: 'Rollers make no smoke, they are as clean as walking.', de: 'Roller machen keinen Rauch, so sauber wie zu Fuß gehen.' } },
-			 { face: 2, steps: 1, emissions: 0, spriteIndex: 1, name: { en: 'Skates are planet-friendly. They use no fuel, just your legs.', de: 'Skates sind umweltfreundlich, sie brauchen keinen Treibstoff, nur deine Beine.' } },
-			 { face: 3, steps: 2, emissions: 0, spriteIndex: 2, name: { en: 'Bikes make no pollution, just stronger legs.', de: 'Radfahren verursacht keine Abgase, nur stärkere Muskeln.' } }
+    	 { face: 1, steps: 1, emissions: 0, spriteIndex: 0, type: 'Scooter', name: { en: 'Rollers make no smoke, they are as clean as walking.', de: 'Roller machen keinen Rauch, so sauber wie zu Fuß gehen.' } },
+			 { face: 2, steps: 1, emissions: 0, spriteIndex: 1, type: 'Skate', name: { en: 'Skates are planet-friendly. They use no fuel, just your legs.', de: 'Skates sind umweltfreundlich, sie brauchen keinen Treibstoff, nur deine Beine.' } },
+			 { face: 3, steps: 2, emissions: 0, spriteIndex: 2, type: 'Bike', name: { en: 'Bikes make no pollution, just stronger legs.', de: 'Radfahren verursacht keine Abgase, nur stärkere Muskeln.' } }
       ] 
     }, 
     { 
-    	id: 'B', 
+    	id: 'Orange', 
     	color: getCss('--dice-b'), 
     	name: { en: 'Shared Low-Emission', de: 'Gemeinschaft Grün' }, 
     	description: { en: 'Orange Die', de: 'Oranger Würfel' }, 
     	action: { en: 'Move 2-3 / 1-2 emissions', de: 'Zieh 2–3 / 1–2 Emissionen' }, 
     	heroIndexBase: 3, 
     	outcomes: [
-			 { face: 1, steps: 3, emissions: 1, spriteIndex: 3, name: { en: 'Trains share one engine for many people resulting in less smoke per person.', de: 'Züge teilen sich einen Motor für viele Menschen, dadurch entsteht pro Person weniger Rauch.' } },
-			 { face: 2, steps: 2, emissions: 1, spriteIndex: 4, name: { en: 'Trams run on electricity. It can take as many people as 50 cars but without the fumes.', de: 'Die S-Bahn fährt mit Strom. Sie kann so viele Menschen mitnehmen wie 50 Autos, aber ohne Abgase.' } },
-			 { face: 3, steps: 3, emissions: 2, spriteIndex: 5, name: { en: 'One bus ride per person is cleaner than each person driving their own car.', de: 'Eine Busfahrt pro Person ist sauberer, als wenn jede Person mit dem eigenen Auto fährt.' } }
+			 { face: 1, steps: 3, emissions: 1, spriteIndex: 3, type: 'Train', name: { en: 'Trains share one engine for many people resulting in less smoke per person.', de: 'Züge teilen sich einen Motor für viele Menschen, dadurch entsteht pro Person weniger Rauch.' } },
+			 { face: 2, steps: 2, emissions: 1, spriteIndex: 4, type: 'Tram', name: { en: 'Trams run on electricity. It can take as many people as 50 cars but without the fumes.', de: 'Die S-Bahn fährt mit Strom. Sie kann so viele Menschen mitnehmen wie 50 Autos, aber ohne Abgase.' } },
+			 { face: 3, steps: 3, emissions: 2, spriteIndex: 5, type: 'Bus', name: { en: 'One bus ride per person is cleaner than each person driving their own car.', de: 'Eine Busfahrt pro Person ist sauberer, als wenn jede Person mit dem eigenen Auto fährt.' } }
     	] 
     }, 
     { 
-    	id: 'C', 
+    	id: 'Gray', 
       color: getCss('--dice-c'), 
       name: { en: 'Motor-Driven', de: 'Motorbetrieb' }, 
       description: { en: 'Gray Die', de: 'Grauer Würfel' },
       action: { en: 'Move 3-4 / 2-4 emissions', de: 'Zieh 3–4 / 2–4 Emissionen' }, 
       heroIndexBase: 6, 
       outcomes: [
-      	{ face: 1, steps: 3, emissions: 2, spriteIndex: 6, name: { en: 'Motorbikes make less smoke than cars but more than buses per person.', de: 'Motorräder machen weniger Abgase als Autos, aber mehr als Busse pro Person.' } },
-      	{ face: 2, steps: 4, emissions: 3, spriteIndex: 7, name: { en: 'Cars make a lot of smoke. Like burning a big bag of charcoal for each trip.', de: 'Autos verursachen viele Abgase, wie wenn man für jede Fahrt einen großen Sack Kohle verbrennt.' } },
-      	{ face: 3, steps: 4, emissions: 4, spriteIndex: 8, name: { en: 'Trucks carry heavy stuff but one truck can pollute as much as dozens of cars in one day.', de: 'Ein einziger LKW kann so viele Abgase ausstoßen wie dutzende Autos an einem Tag.' } }
+      	{ face: 1, steps: 3, emissions: 2, spriteIndex: 6, type: 'Motorbike', name: { en: 'Motorbikes make less smoke than cars but more than buses per person.', de: 'Motorräder machen weniger Abgase als Autos, aber mehr als Busse pro Person.' } },
+      	{ face: 2, steps: 4, emissions: 3, spriteIndex: 7, type: 'Car', name: { en: 'Cars make a lot of smoke. Like burning a big bag of charcoal for each trip.', de: 'Autos verursachen viele Abgase, wie wenn man für jede Fahrt einen großen Sack Kohle verbrennt.' } },
+      	{ face: 3, steps: 4, emissions: 4, spriteIndex: 8, type: 'Truck', name: { en: 'Trucks carry heavy stuff but one truck can pollute as much as dozens of cars in one day.', de: 'Ein einziger LKW kann so viele Abgase ausstoßen wie dutzende Autos an einem Tag.' } }
       ] 
     },
     { 
-    	id: 'D', 
+    	id: 'Red', 
     	color: getCss('--dice-d'), 
     	name: { en: 'Shared High-Emission', de: 'Gemeinschaft Turbo' }, 
     	description: { en: 'Red Die', de: 'Roter Würfel' },
     	action: { en: 'Move 5-6 / 5-6 emissions', de: 'Zieh 5–6 / 5–6 Emissionen' }, 
     	heroIndexBase: 9, 
     	outcomes: [
-			 { face: 1, steps: 5, emissions: 4, spriteIndex: 9, name: { en: 'One plane trip can make as much smoke as hundreds of cars driving all week.', de: 'Ein Flug kann so viele Abgase verursachen wie hunderte Autos, die eine ganze Woche lang fahren.' } },
-			 { face: 2, steps: 5, emissions: 5, spriteIndex: 10, name: { en: 'A short helicopter trip makes more smoke than 100 bus rides.', de: 'Ein kurzer Helikopterflug verursacht mehr Abgase als 100 Busfahrten.' } },
-			 { face: 3, steps: 6, emissions: 6, spriteIndex: 11, name: { en: 'Big ships make huge clouds of smoke, even bigger than planes sometimes.', de: 'Große Schiffe erzeugen riesige Rauchwolken, manchmal sogar mehr als Flugzeuge.' } }
+			 { face: 1, steps: 5, emissions: 4, spriteIndex: 9, type: 'Airplane', name: { en: 'One plane trip can make as much smoke as hundreds of cars driving all week.', de: 'Ein Flug kann so viele Abgase verursachen wie hunderte Autos, die eine ganze Woche lang fahren.' } },
+			 { face: 2, steps: 5, emissions: 5, spriteIndex: 10, type: 'Helicopter', name: { en: 'A short helicopter trip makes more smoke than 100 bus rides.', de: 'Ein kurzer Helikopterflug verursacht mehr Abgase als 100 Busfahrten.' } },
+			 { face: 3, steps: 6, emissions: 6, spriteIndex: 11, type: 'Ship', name: { en: 'Big ships make huge clouds of smoke, even bigger than planes sometimes.', de: 'Große Schiffe erzeugen riesige Rauchwolken, manchmal sogar mehr als Flugzeuge.' } }
 		  ] 
     }
   ];
@@ -302,9 +349,11 @@
       return { ...defaultState };
     }
   }
+
   function saveState(state){
     localStorage.setItem(StorageKeys.state, JSON.stringify(state));
   }
+
   function setLanguage(lang){
     const state = loadState();
     state.currentLanguage = lang;
@@ -313,13 +362,16 @@
     applyI18n(lang);
     updateUIFromState();
   }
+
   function t(key){
     const st = loadState();
     return translations[st.currentLanguage]?.[key] ?? translations.en[key] ?? key;
   }
+
   function applyI18n(lang){
     $$('[data-i18n]').forEach(el => { el.textContent = translations[lang]?.[el.dataset.i18n] ?? el.textContent; });
     $$('[data-i18n-title]').forEach(el => { el.title = translations[lang]?.[el.dataset.i18nTitle] ?? el.title; });
+    $$('[data-i18n-href]').forEach(el => { el.href = translations[lang]?.[el.dataset.i18nHref] ?? el.href; });
   }
 
   // Rendering helpers
@@ -392,12 +444,9 @@
   }
 
   function setCubeFacesForDie(cube, die){
-    // Use actual rendered height in CSS pixels (border-box) to avoid DPR rounding
     const rect = cube.getBoundingClientRect();
-    //const sizeY = Math.max(1, Math.round(rect.height)) || 96;
     const sizeY = parseFloat(getCss('--dice-size'));
     const faces = $$('.face', cube);
-    // Map three outcomes to parallel faces
     const mapping = [
       { cls: 'front', idx: 0 }, { cls: 'back', idx: 0 },
       { cls: 'right', idx: 1 }, { cls: 'left', idx: 1 },
@@ -418,10 +467,10 @@
     if(!currentDie) return;
     audioMap[12]?.play();
     const cube = $('#dice-cube');
-    const duration = 1000 + Math.floor(Math.random()*500); // 1.0s-1.5s
-    const targetIdx = Math.floor(Math.random()*3); // 0..2 (three outcomes)
+    const duration = 1000 + Math.floor(Math.random()*500);  // 1.0s-1.5s
+    const targetIdx = Math.floor(Math.random()*3);          // 0..2 (three outcomes)
     const rotations = [
-      { x: 0, y: 0 }, // front
+      { x: 0, y: 0 },   // front
       { x: 0, y: -90 }, // right
       { x: -90, y: 0 }, // top
     ];
@@ -429,7 +478,7 @@
     // spin random and settle to faceTarget
     const randX = 360* (2 + Math.floor(Math.random()*2));
     const randY = 360* (2 + Math.floor(Math.random()*2));
-    //lateral view of dice:
+    //lateral view of dice to generate the figures:
     //cube.style.transitionDuration = '0ms';
     //cube.style.transform = 'rotateX(-30deg) rotateY(45deg)';
     cube.style.transitionDuration = duration + 'ms';
@@ -465,6 +514,8 @@
       turn,
       diceId: die.id,
       diceColor: die.color,
+      diceName: die.name[st.currentLanguage],
+      diceFace: outcome.type,
       steps: outcome.steps,
       emissions: outcome.emissions,
       pointsAfter: st.points,
@@ -703,13 +754,13 @@
   // CSV export
   function downloadCsv(){
     const st = loadState();
-    const rows = [['turn','dice_id','color','steps','emissions','points']];
+    const rows = [['turn','dice','type','transport','steps','emissions','points']];
     let sumSteps = 0, sumEm = 0, sumPts = 0;
     st.rounds.forEach(r => {
-      rows.push([r.turn, r.diceId, r.diceColor, r.steps, r.emissions, r.pointsAfter]);
+      rows.push([r.turn, r.diceId, r.diceName, r.diceFace, r.steps, r.emissions, r.pointsAfter]);
       sumSteps += r.steps; sumEm += r.emissions; sumPts = r.pointsAfter; // pointsAfter reflects cumulative
     });
-    rows.push(['SUM','', '', sumSteps, sumEm, sumPts]);
+    rows.push(['SUM','', '', '', sumSteps, sumEm, sumPts]);
     const csv = rows.map(r=>r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -844,7 +895,6 @@
 
   function init(){
     // ensure assets path placeholders exist even if images missing
-    // Page-specific
     const page = document.body.dataset.page;
     if(page === 'landing'){
       setupLanguageSwitch();
