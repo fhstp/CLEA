@@ -139,8 +139,8 @@
       'common.done': 'Done',
       'common.cancel': 'Cancel',
       'common.dismiss': 'Dismiss',
-      'href.gamemap': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Karte.png?raw=true',
-      'href.gamemanual': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Leitung.pdf?raw=true',
+      'href.gamemap': 'https://phaidra.fhstp.ac.at/api/object/o:7341/preview',
+      'href.gamemanual': 'https://phaidra.fhstp.ac.at/api/object/o:7343/preview',
       'href.project': 'https://research.fhstp.ac.at/en/projects/clea-check-and-leave-for-environmental-action',
     },
     de: {
@@ -195,8 +195,8 @@
       'common.done': 'Fertig',
       'common.cancel': 'Abbrechen',
       'common.dismiss': 'Schließen',
-      'href.gamemap': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Karte.png?raw=true',
-      'href.gamemanual': 'https://github.com/fhstp/CLEA/blob/main/assets/game/Leitung.pdf?raw=true',
+      'href.gamemap': 'https://phaidra.fhstp.ac.at/api/object/o:7340/preview',
+      'href.gamemanual': 'https://phaidra.fhstp.ac.at/api/object/o:7342/preview',
       'href.project': 'https://research.fhstp.ac.at/projekte/clea-check-and-leave-for-environmental-action',
     }
   };
@@ -467,7 +467,7 @@
     if(!currentDie) return;
     audioMap[12]?.play();
     const cube = $('#dice-cube');
-    const duration = 1000 + Math.floor(Math.random()*500);  // 1.0s-1.5s
+    const duration = 1500 + Math.floor(Math.random()*500);  // 1.5s-2s
     const targetIdx = Math.floor(Math.random()*3);          // 0..2 (three outcomes)
     const rotations = [
       { x: 0, y: 0 },   // front
