@@ -49,7 +49,7 @@ dialog{min-height:fit-content}
 .topbar .right{display:flex;}
 .topbar .right .icon-btn{display:flex;margin-left: 10px}
 .icon-btn .icon{font-size:18px}
-.identity-pill{margin:8px 12px;max-width:calc(100% - 24px);padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#689167;color:#ffffff;text-wrap:auto;text-overflow:ellipsis;box-shadow:0 1px 2px rgba(16,24,40,.06);font-size:small;}
+.identity-pill{margin:8px 12px;max-width:calc(100% - 24px);padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#3c6238;color:#ffffff;text-wrap:auto;text-overflow:ellipsis;box-shadow:0 1px 2px rgba(16,24,40,.06);font-size:small;}
 #btn-identity{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -45px; background-repeat:no-repeat;background-size:44px;border:1px solid #457244}
 #btn-info{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -441px; background-repeat:no-repeat;background-size:44px;border:1px solid #000000;}
 #btn-home{background:rgba(255,200,0,.08);background-image:url('../assets/spritethumb.png');background-position: -1px -352px; background-repeat:no-repeat;background-size:44px;border:1px solid #ffa900;}
