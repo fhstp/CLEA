@@ -139,8 +139,8 @@
       'common.done': 'Done',
       'common.cancel': 'Cancel',
       'common.dismiss': 'Dismiss',
-      'href.gamemap': 'https://phaidra.fhstp.ac.at/api/object/o:7341/preview',
-      'href.gamemanual': 'https://phaidra.fhstp.ac.at/api/object/o:7343/preview',
+      'href.gamemap': 'https://phaidra.ustp.at/api/object/o:7341/preview',
+      'href.gamemanual': 'https://phaidra.ustp.at/api/object/o:7343/preview',
       'href.project': 'https://research.fhstp.ac.at/en/projects/clea-check-and-leave-for-environmental-action',
     },
     de: {
@@ -196,8 +196,8 @@
       'common.cancel': 'Abbrechen',
       'common.dismiss': 'Schließen',
       'href.gamemap': 'https://phaidra.fhstp.ac.at/api/object/o:7340/preview',
-      'href.gamemanual': 'https://phaidra.fhstp.ac.at/api/object/o:7342/preview',
-      'href.project': 'https://research.fhstp.ac.at/projekte/clea-check-and-leave-for-environmental-action',
+      'href.gamemanual': 'https://phaidra.ustp.at/api/object/o:7342/preview',
+      'href.project': 'https://research.ustp.at/projekte/clea-check-and-leave-for-environmental-action',
     }
   };
 
